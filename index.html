@@ -603,6 +603,123 @@
 
     /* hide cursor inside panels too */
     .slide-panel { cursor: none; }
+
+    /* ══════════════════════════════════
+       MOBILE — full scroll layout
+    ══════════════════════════════════ */
+    @media (max-width: 768px) {
+      html, body {
+        height: auto;
+        overflow: auto;
+        cursor: auto;
+      }
+
+      /* hide custom cursor on touch */
+      .cursor { display: none; }
+
+      /* hero becomes a normal block, not fixed */
+      .hero {
+        position: relative;
+        min-height: 100svh;
+        padding: 2rem 1.5rem 2.5rem;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+
+      .hero-top-left {
+        position: relative;
+        top: auto;
+        left: auto;
+        max-width: 100%;
+        margin-bottom: 2rem;
+      }
+
+      .hero-logo { font-size: 1.3rem; }
+
+      .hero-blurb {
+        font-size: 0.8rem;
+        max-width: 100%;
+      }
+
+      /* artwork — centered, smaller */
+      .hero-art {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: 72vw;
+        max-width: 320px;
+        margin: 0 auto 1.5rem;
+        display: block;
+      }
+
+      /* photo — full width strip */
+      .hero-photo {
+        position: relative;
+        bottom: auto;
+        right: auto;
+        width: 100%;
+        height: 44vw;
+        max-height: 240px;
+        margin-top: 1.5rem;
+      }
+
+      /* initials — hide on mobile (too large) */
+      .hero-initials { display: none; }
+
+      /* bottom eyebrow */
+      .hero-eyebrow { margin-top: 1rem; }
+
+      /* hide desktop tabs + panels */
+      .side-tabs { display: none; }
+      .slide-panel { display: none; }
+      .panel-overlay { display: none; }
+
+      /* ── Mobile content sections ── */
+      .mobile-sections {
+        display: block;
+        background: var(--white);
+      }
+
+      .mobile-section {
+        padding: 3rem 1.5rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .mobile-section-heading {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 0.5rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: rgba(0,0,0,0.35);
+        font-weight: 600;
+        margin-bottom: 2rem;
+      }
+
+      /* reuse panel styles in mobile context */
+      .mobile-section .preview-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .mobile-section .panel-section-label {
+        font-size: 0.48rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      .mobile-section .panel-career {
+        margin-bottom: 0;
+      }
+
+      .mobile-section .panel-writing-item {
+        padding: 0.9rem 0.75rem;
+        margin: 0 -0.75rem;
+      }
+    }
+
+    /* show mobile sections only on mobile */
+    .mobile-sections { display: none; }
   </style>
 </head>
 <body>
@@ -810,6 +927,115 @@
       <a href="https://medium.com/@productbyira" target="_blank" rel="noopener">Medium &rarr;</a>
     </div>
   </div>
+
+  <!-- MOBILE SECTIONS (hidden on desktop via CSS) -->
+  <div class="mobile-sections">
+
+    <!-- Product -->
+    <div class="mobile-section">
+      <p class="mobile-section-heading">Product</p>
+
+      <p class="panel-section-label">Prototypes</p>
+      <div class="preview-grid">
+        <a class="preview-card" href="https://harvest-opal.vercel.app/profile?onboarding=true" target="_blank" rel="noopener">
+          <div class="preview-thumb">
+            <div class="preview-loading"></div>
+            <img src="https://api.microlink.io/?url=https%3A%2F%2Fharvest-opal.vercel.app%2Fprofile%3Fonboarding%3Dtrue&screenshot=true&meta=false&embed=screenshot.url&viewport.width=1200&viewport.height=1200" alt="Harvest preview" loading="lazy" onload="this.previousElementSibling.remove()" onerror="this.previousElementSibling.remove()">
+          </div>
+          <p class="preview-card-title">Harvest — Recipes that know you</p>
+        </a>
+        <a class="preview-card" href="https://bumper-bw67ex5ak-irasaini00-7938s-projects.vercel.app/" target="_blank" rel="noopener">
+          <div class="preview-thumb">
+            <div class="preview-loading"></div>
+            <img src="https://api.microlink.io/?url=https%3A%2F%2Fbumper-bw67ex5ak-irasaini00-7938s-projects.vercel.app%2F&screenshot=true&meta=false&embed=screenshot.url&viewport.width=1200&viewport.height=1200" alt="Bumper preview" loading="lazy" onload="this.previousElementSibling.remove()" onerror="this.previousElementSibling.remove()">
+          </div>
+          <p class="preview-card-title">Bumper — Automated claims filing</p>
+        </a>
+      </div>
+
+      <p class="panel-section-label" style="margin-top:2rem">Product Strategy</p>
+      <div class="preview-grid">
+        <a class="preview-card" href="https://irasaini.github.io/figma-howtowin/" target="_blank" rel="noopener">
+          <div class="preview-thumb">
+            <div class="preview-loading"></div>
+            <img src="https://api.microlink.io/?url=https%3A%2F%2Firasaini.github.io%2Ffigma-howtowin%2F&screenshot=true&meta=false&embed=screenshot.url&viewport.width=1200&viewport.height=1200" alt="Figma How to Win" loading="lazy" onload="this.previousElementSibling.remove()" onerror="this.previousElementSibling.remove()">
+          </div>
+          <p class="preview-card-title">Figma — How to Win</p>
+        </a>
+        <a class="preview-card" href="https://irasaini.github.io/plaid-ai-strategy/" target="_blank" rel="noopener">
+          <div class="preview-thumb">
+            <div class="preview-loading"></div>
+            <img src="https://api.microlink.io/?url=https%3A%2F%2Firasaini.github.io%2Fplaid-ai-strategy%2F&screenshot=true&meta=false&embed=screenshot.url&viewport.width=1200&viewport.height=1200" alt="Plaid AI Strategy" loading="lazy" onload="this.previousElementSibling.remove()" onerror="this.previousElementSibling.remove()">
+          </div>
+          <p class="preview-card-title">Plaid — AI Strategy</p>
+        </a>
+        <a class="preview-card" href="https://irasaini.github.io/notion-ai-strategy/" target="_blank" rel="noopener">
+          <div class="preview-thumb">
+            <div class="preview-loading"></div>
+            <img src="https://api.microlink.io/?url=https%3A%2F%2Firasaini.github.io%2Fnotion-ai-strategy%2F&screenshot=true&meta=false&embed=screenshot.url&viewport.width=1200&viewport.height=1200" alt="Notion AI Strategy" loading="lazy" onload="this.previousElementSibling.remove()" onerror="this.previousElementSibling.remove()">
+          </div>
+          <p class="preview-card-title">Notion — AI Strategy</p>
+        </a>
+      </div>
+
+      <p class="panel-section-label" style="margin-top:2rem">Career</p>
+      <div class="panel-career">
+        <p>Currently building algorithms and automated flows @ <a href="https://www.assetwatch.com" target="_blank" rel="noopener">AssetWatch</a>.</p>
+        <p>Prev, automated clinical trials @ <a href="https://vial.com" target="_blank" rel="noopener">Vial</a>. Before that, launched a journaling app @ <a href="https://research.google/teams/brain/" target="_blank" rel="noopener">Google Brain</a>.</p>
+        <p>Working on EndoYou.</p>
+      </div>
+    </div>
+
+    <!-- Thoughts -->
+    <div class="mobile-section">
+      <p class="mobile-section-heading">Thoughts</p>
+
+      <p class="panel-section-label">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;vertical-align:middle;margin-right:0.4rem" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn
+      </p>
+      <div class="panel-writing-group">
+        <a class="panel-writing-item" href="https://www.linkedin.com/posts/ira-saini_ai-is-changing-a-lot-first-principles-aren-activity-7455445477032128513-eyM2" target="_blank" rel="noopener">
+          <div class="panel-writing-item-body"><p class="panel-writing-source">LinkedIn</p><p class="panel-writing-title">AI is changing a lot. First principles aren't.</p></div>
+          <span class="panel-writing-arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8"/></svg></span>
+        </a>
+        <a class="panel-writing-item" href="https://www.linkedin.com/posts/ira-saini_most-ai-discussions-stop-at-summaries-or-activity-7442656575003099136-6fDp" target="_blank" rel="noopener">
+          <div class="panel-writing-item-body"><p class="panel-writing-source">LinkedIn</p><p class="panel-writing-title">Most AI discussions stop at summaries or shortcuts.</p></div>
+          <span class="panel-writing-arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8"/></svg></span>
+        </a>
+        <a class="panel-writing-item" href="https://www.linkedin.com/posts/ira-saini_the-smallest-feature-can-be-the-biggest-activity-7417303832113737730-x0In" target="_blank" rel="noopener">
+          <div class="panel-writing-item-body"><p class="panel-writing-source">LinkedIn</p><p class="panel-writing-title">The smallest feature can be the biggest.</p></div>
+          <span class="panel-writing-arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8"/></svg></span>
+        </a>
+        <a class="panel-writing-item" href="https://www.linkedin.com/posts/ira-saini_heres-why-you-shouldnt-be-a-data-driven-activity-7397051366281719808-SAlD" target="_blank" rel="noopener">
+          <div class="panel-writing-item-body"><p class="panel-writing-source">LinkedIn</p><p class="panel-writing-title">Here's why you shouldn't be a data-driven PM.</p></div>
+          <span class="panel-writing-arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8"/></svg></span>
+        </a>
+      </div>
+
+      <p class="panel-section-label" style="margin-top:2rem">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;vertical-align:middle;margin-right:0.4rem" xmlns="http://www.w3.org/2000/svg"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>Medium
+      </p>
+      <div class="panel-writing-group">
+        <a class="panel-writing-item" href="https://medium.com/@productbyira/the-only-how-to-for-prds-youll-ever-need-to-read-cc45926ee256" target="_blank" rel="noopener">
+          <div class="panel-writing-item-body"><p class="panel-writing-source">Medium</p><p class="panel-writing-title">The Only "How To" for PRDs You'll Ever Need to Read</p></div>
+          <span class="panel-writing-arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8"/></svg></span>
+        </a>
+        <a class="panel-writing-item" href="https://medium.com/@productbyira/products-used-to-be-deterministic-ai-broke-that-6daa7ab5ab83" target="_blank" rel="noopener">
+          <div class="panel-writing-item-body"><p class="panel-writing-source">Medium</p><p class="panel-writing-title">Products Used to Be Deterministic. AI Broke That.</p></div>
+          <span class="panel-writing-arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8"/></svg></span>
+        </a>
+        <a class="panel-writing-item" href="https://medium.com/@productbyira/how-to-manage-your-favorite-co-worker-chatgpt-4c857edbf024" target="_blank" rel="noopener">
+          <div class="panel-writing-item-body"><p class="panel-writing-source">Medium</p><p class="panel-writing-title">How to Manage Your Favorite Co-Worker: ChatGPT</p></div>
+          <span class="panel-writing-arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8"/></svg></span>
+        </a>
+        <a class="panel-writing-item" href="https://medium.com/@productbyira/lets-bereal-the-paradox-of-the-app-store-s-most-downloaded-application-23c1f3fbe0e8" target="_blank" rel="noopener">
+          <div class="panel-writing-item-body"><p class="panel-writing-source">Medium</p><p class="panel-writing-title">Let's BeReal — The Paradox of the App Store's Most Downloaded Application</p></div>
+          <span class="panel-writing-arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8"/></svg></span>
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /mobile-sections -->
 
   <script>
     // Custom cursor
