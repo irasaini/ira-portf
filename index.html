@@ -188,20 +188,20 @@
       align-items: flex-start;
       justify-content: center;
       padding-top: 3rem;
-      border-left: 1px solid rgba(255,255,255,0.08);
-      background: var(--dark);
+      border-left: 3px solid var(--dark);
+      background: var(--white);
       transition: width 0.4s cubic-bezier(0.16,1,0.3,1), background 0.2s;
       overflow: hidden;
     }
 
     .side-tab:hover {
       width: 148px;
-      background: #222;
+      background: #f0f0f0;
     }
 
     .side-tab.open {
       width: 110px;
-      background: #000;
+      background: #e8e8e8;
     }
 
     .side-tab-label {
@@ -212,15 +212,15 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       font-weight: 700;
-      color: rgba(0,0,0,0.5);
+      color: var(--dark);
       user-select: none;
       white-space: nowrap;
       transition: color 0.2s;
     }
 
-    .side-tab-label { color: #fff; }
-    .side-tab:hover .side-tab-label { color: #fff; }
-    .side-tab.open .side-tab-label  { color: #fff; }
+    .side-tab-label { color: var(--dark); }
+    .side-tab:hover .side-tab-label { color: var(--dark); }
+    .side-tab.open .side-tab-label  { color: var(--dark); }
 
     /* ══════════════════════════════════
        SLIDE PANELS — from right
@@ -604,6 +604,7 @@
     /* hide cursor inside panels too */
     .slide-panel { cursor: none; }
 
+
     /* mobile sections hidden by default (desktop) */
     .mobile-sections { display: none; }
 
@@ -810,7 +811,7 @@
           <div class="preview-loading"></div>
           <img src="https://api.microlink.io/?url=https%3A%2F%2Fendoyou-app-production.up.railway.app%2F&screenshot=true&meta=false&embed=screenshot.url&viewport.width=1200&viewport.height=1200" alt="EndoYou preview" loading="lazy" onload="this.previousElementSibling.remove()" onerror="this.previousElementSibling.remove()">
         </div>
-        <p class="preview-card-title">EndoYou — Endometriosis tracking</p>
+        <p class="preview-card-title">EndoYou — Symptom tracking, smarter diagnosis</p>
       </a>
     </div>
 
@@ -963,7 +964,7 @@
             <div class="preview-loading"></div>
             <img src="https://api.microlink.io/?url=https%3A%2F%2Fendoyou-app-production.up.railway.app%2F&screenshot=true&meta=false&embed=screenshot.url&viewport.width=1200&viewport.height=1200" alt="EndoYou preview" loading="lazy" onload="this.previousElementSibling.remove()" onerror="this.previousElementSibling.remove()">
           </div>
-          <p class="preview-card-title">EndoYou — Endometriosis tracking</p>
+          <p class="preview-card-title">EndoYou — Symptom tracking, smarter diagnosis</p>
         </a>
       </div>
 
@@ -1126,5 +1127,25 @@
 
   </script>
 
+  <script>
+
+    // ── Mouse-reactive hero art ─────────────────────────────────
+    (function () {
+      if (!window.matchMedia('(pointer: fine)').matches) return;
+      const art = document.querySelector('.hero-art');
+      if (!art) return;
+      let tx = 0, ty = 0, cx = 0, cy = 0;
+      document.addEventListener('mousemove', e => {
+        tx = (e.clientX / window.innerWidth  - 0.5) * 28;
+        ty = (e.clientY / window.innerHeight - 0.5) * 16;
+      });
+      (function tick() {
+        cx += (tx - cx) * 0.055;
+        cy += (ty - cy) * 0.055;
+        art.style.transform = `translate(calc(-60% + ${cx.toFixed(2)}px), calc(-50% + ${cy.toFixed(2)}px))`;
+        requestAnimationFrame(tick);
+      })();
+    })();
+  </script>
 </body>
 </html>
