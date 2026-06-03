@@ -27,15 +27,15 @@
       font-family: 'Inter', sans-serif;
       font-weight: 300;
       -webkit-font-smoothing: antialiased;
-      overflow: hidden; /* hero is full viewport */
+      overflow-y: auto; /* allow scroll to work page */
     }
 
     /* ══════════════════════════════════
        HERO — full viewport, white bg
     ══════════════════════════════════ */
     .hero {
-      position: fixed;
-      inset: 0;
+      position: relative;
+      height: 100vh;
       background: var(--white);
       display: flex;
       flex-direction: column;
@@ -259,6 +259,7 @@
 
     #panel-product { width: calc(70vw - 220px); }
     #panel-writing  { width: calc(60vw - 220px); }
+    #panel-work     { width: calc(85vw - 220px); background: var(--white); }
 
     .slide-panel.open {
       transform: translateX(0);
@@ -606,6 +607,205 @@
     .slide-panel { cursor: none; }
 
 
+    /* ══════════════════════════════════
+       FLIP PROJECT CARDS
+    ══════════════════════════════════ */
+    .pcards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      padding: 2rem 0 2rem;
+      max-width: 1100px;
+    }
+
+    .pcard--flip {
+      padding: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      aspect-ratio: 1 / 1;
+      perspective: 1200px;
+    }
+
+    .pcard-flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: unset;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1.5px solid #1C1814;
+      border-radius: 2px;
+      box-shadow: none;
+    }
+
+    .pcard--flip:hover .pcard-flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .pcard-front, .pcard-back {
+      position: absolute;
+      inset: 0;
+      border-radius: 2px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .pcard-front { overflow: hidden; }
+
+    .pcard-front img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      display: block;
+    }
+
+    .pcard-front-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 3.5rem 1.8rem 1.6rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%);
+    }
+
+    .pcard-front-tag {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.46rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: rgba(255,255,255,0.75);
+      display: block;
+      margin-bottom: 0.45rem;
+    }
+
+    .pcard-front-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.55rem;
+      color: white;
+      line-height: 1.05;
+      display: block;
+    }
+
+    .pcard-back {
+      transform: rotateY(180deg);
+      background: white;
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pcard-tag {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.46rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #1C1814;
+      margin-bottom: 0.8rem;
+    }
+
+    .pcard-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: #1C1814;
+      margin-bottom: 0.5rem;
+    }
+
+    .pcard-desc {
+      flex: 1;
+      color: #1C1814;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    .pcard-install {
+      margin-top: 1rem;
+      background: #f5f5f5;
+      border: 1px solid #e0e0e0;
+      border-radius: 3px;
+      padding: 0.6rem 3rem 0.6rem 0.75rem;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.58rem;
+      color: #1C1814;
+      cursor: pointer;
+      position: relative;
+      word-break: break-all;
+      line-height: 1.5;
+    }
+
+    .pcard-copy-label {
+      position: absolute;
+      top: 0.45rem;
+      right: 0.65rem;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: rgba(0,0,0,0.4);
+    }
+
+    .pcard-back-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-top: 1.5rem;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #1C1814;
+      border: 1.5px solid #1C1814;
+      border-radius: 2px;
+      padding: 0.45rem 0.85rem;
+      align-self: flex-start;
+      transition: background 0.15s, color 0.15s;
+      text-decoration: none;
+    }
+
+    .pcard-back-cta:hover {
+      background: #1C1814;
+      color: white;
+    }
+
+    /* ══════════════════════════════════
+       WORK PAGE — below hero
+    ══════════════════════════════════ */
+    .work-page {
+      position: relative;
+      background: var(--white);
+      min-height: 100vh;
+      padding: 5rem 260px 6rem 3rem;
+      z-index: 2;
+    }
+
+    .work-page-eyebrow {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: clamp(2rem, 4.5vw, 4rem);
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1;
+      margin-bottom: 3rem;
+      letter-spacing: 0.06em;
+      text-transform: none;
+    }
+
+    .site-footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.3);
+      font-weight: 500;
+    }
+
     /* mobile sections hidden by default (desktop) */
     .mobile-sections { display: none; }
 
@@ -693,7 +893,7 @@
 
       .mobile-section-heading {
         font-family: Helvetica, Arial, sans-serif;
-        font-size: 0.5rem;
+        font-size: 0.65rem;
         letter-spacing: 0.28em;
         text-transform: uppercase;
         color: rgba(0,0,0,0.35);
@@ -704,13 +904,23 @@
       /* reuse panel styles in mobile context */
       .mobile-section .preview-grid {
         grid-template-columns: 1fr 1fr;
-        gap: 1rem;
+        gap: 1.2rem;
+      }
+
+      .mobile-section .preview-thumb {
+        aspect-ratio: 4 / 3;
+      }
+
+      .mobile-section .preview-card-title {
+        font-size: 0.88rem;
+        line-height: 1.4;
+        font-weight: 400;
       }
 
       .mobile-section .panel-section-label {
-        font-size: 0.48rem;
+        font-size: 0.6rem;
         margin-top: 2rem;
-        margin-bottom: 1rem;
+        margin-bottom: 1.2rem;
       }
 
       .mobile-section .panel-career {
@@ -720,6 +930,36 @@
       .mobile-section .panel-writing-item {
         padding: 0.9rem 0.75rem;
         margin: 0 -0.75rem;
+      }
+
+      /* work page on mobile */
+      .work-page {
+        padding: 3rem 1.5rem 4rem;
+      }
+
+      .work-page-eyebrow {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .pcards-grid {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        gap: 1.2rem;
+      }
+
+      .pcard--flip {
+        aspect-ratio: unset;
+        height: 420px;
+      }
+
+      .pcard-flip-inner {
+        height: 420px;
+        min-height: unset;
+      }
+
+      .site-footer {
+        padding: 1.5rem;
       }
     }
   </style>
@@ -773,6 +1013,84 @@
       <p class="hero-eyebrow">Product Leader &mdash; New York City</p>
     </div>
 
+  </section>
+
+  <!-- WORK PAGE -->
+  <section class="work-page">
+    <p class="work-page-eyebrow">building...</p>
+    <div class="pcards-grid">
+
+      <!-- mobile-fix -->
+      <div class="pcard--flip">
+        <div class="pcard-flip-inner">
+          <div class="pcard-front">
+            <img src="mobile.jpg" alt="mobile-fix" />
+            <div class="pcard-front-label">
+              <span class="pcard-front-tag">Claude Skill · Open Source</span>
+              <span class="pcard-front-title">mobile-fix</span>
+            </div>
+          </div>
+          <div class="pcard-back">
+            <div class="pcard-tag">Claude Skill · Open Source</div>
+            <h3 class="pcard-title">mobile-fix</h3>
+            <p class="pcard-desc">Makes any site mobile-friendly without touching the desktop layout.</p>
+            <div class="pcard-install" onclick="event.stopPropagation();(function(el){navigator.clipboard.writeText('/install-skill https://raw.githubusercontent.com/irasaini/mobile-fix/main/mobile-fix.skill');var c=el.querySelector('.pcard-copy-label');c.textContent='copied!';setTimeout(function(){c.textContent='copy';},1800);})(this)">
+              /install-skill https://raw.githubusercontent.com/irasaini/mobile-fix/main/mobile-fix.skill
+              <span class="pcard-copy-label">copy</span>
+            </div>
+            <a class="pcard-back-cta" href="https://github.com/irasaini/mobile-fix" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+              View on GitHub
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- EndoYou -->
+      <div class="pcard--flip">
+        <div class="pcard-flip-inner">
+          <div class="pcard-front">
+            <img src="endoyoupic.jpg" alt="EndoYou" />
+            <div class="pcard-front-label">
+              <span class="pcard-front-tag">Prototype · Health &amp; AI</span>
+              <span class="pcard-front-title">EndoYou</span>
+            </div>
+          </div>
+          <div class="pcard-back">
+            <div class="pcard-tag">Prototype · Health &amp; AI</div>
+            <h3 class="pcard-title">EndoYou</h3>
+            <p class="pcard-desc">Symptom tracking that leads to smarter diagnoses. Built for people who've been dismissed by doctors.</p>
+            <a class="pcard-back-cta" href="https://endoyou-app-production.up.railway.app/" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+              View prototype
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Harvest -->
+      <div class="pcard--flip">
+        <div class="pcard-flip-inner">
+          <div class="pcard-front">
+            <img src="food.jpg" alt="Harvest" />
+            <div class="pcard-front-label">
+              <span class="pcard-front-tag">Prototype · Food &amp; AI</span>
+              <span class="pcard-front-title">Harvest</span>
+            </div>
+          </div>
+          <div class="pcard-back">
+            <div class="pcard-tag">Prototype · Food &amp; AI</div>
+            <h3 class="pcard-title">Harvest</h3>
+            <p class="pcard-desc">Recipes that know you. An AI-powered cooking companion that adapts to your pantry, taste, and goals.</p>
+            <a class="pcard-back-cta" href="https://harvest-opal.vercel.app/profile?onboarding=true" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+              View prototype
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </section>
 
   <!-- RIGHT SIDE TABS -->
@@ -1052,6 +1370,8 @@
     </div>
 
   </div><!-- /mobile-sections -->
+
+  <footer class="site-footer">Ira Saini 2026</footer>
 
   <script>
     // Custom cursor
