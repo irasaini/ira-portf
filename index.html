@@ -19,7 +19,7 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; cursor: none; }
+    html, body { height: 100%; }
 
     body {
       background: var(--white);
@@ -187,6 +187,7 @@
       object-position: center 20%;
       display: block;
     }
+
 
     /* ══════════════════════════════════
        RIGHT-SIDE TAB COLUMNS
@@ -674,7 +675,7 @@
     }
 
     /* hide cursor inside panels too */
-    .slide-panel { cursor: none; }
+    .slide-panel { }
 
 
     /* ══════════════════════════════════
@@ -1638,7 +1639,7 @@
             const i = (y * sw + x) * 4;
             const gray = 0.299 * d[i] + 0.587 * d[i+1] + 0.114 * d[i+2];
             const threshold = (bayer8[(y % 8) * 8 + (x % 8)] / 64) * 255;
-            const val = gray < threshold ? 0 : 255;
+            const val = gray < threshold ? 80 : 255;
             d[i] = d[i+1] = d[i+2] = val;
             d[i+3] = 255;
           }
@@ -1653,6 +1654,7 @@
       document.fonts.load(`100px 'Pinyon Script'`).then(render).catch(render);
       window.addEventListener('resize', render);
     })();
+
 
     // Mobile tap-to-flip cards
     if (window.matchMedia('(hover: none)').matches) {
