@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI in Practice — Ira Saini</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --dark: #1c1814;
+      --white: #ffffff;
+      --mid: #888;
+      --border: rgba(0,0,0,0.1);
+      --accent: rgba(0,0,0,0.06);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      background: var(--white);
+      color: var(--dark);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Nav ── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-back {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.45);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nav-back:hover { color: var(--dark); }
+    .nav-title {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.35);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 1.75rem 2.5rem 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 38%;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .hero-dither {
+      display: block;
+    }
+    .hero-title {
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 1;
+      color: var(--dark);
+      margin: 0;
+      letter-spacing: 0.06em;
+    }
+
+    .hero-right {
+      margin-top: 1rem;
+    }
+
+    .speech-bubble-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .speech-bubble-svg {
+      width: 100%;
+      display: block;
+      overflow: visible;
+    }
+
+    .speech-bubble-text {
+      position: absolute;
+      top: 22%;
+      left: 18%;
+      right: 12%;
+      bottom: 32%;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-belief {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: clamp(0.7rem, 1vw, 0.9rem);
+      font-weight: 700;
+      line-height: 1.45;
+      color: var(--dark);
+      margin: 0;
+    }
+
+    /* ── Belief band ── */
+    .belief-band {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 2.5rem;
+      display: flex;
+      gap: 2rem;
+      overflow-x: auto;
+      background: var(--accent);
+    }
+
+    .belief-item {
+      flex: 0 0 auto;
+      max-width: 280px;
+      border-left: 2px solid rgba(0,0,0,0.15);
+      padding-left: 1rem;
+    }
+
+    .belief-item p {
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: rgba(0,0,0,0.7);
+    }
+
+    /* ── Use cases ── */
+    .use-cases {
+      padding: 0 2.5rem 5rem;
+    }
+
+    .section-header {
+      position: relative;
+      border-top: 1.5px solid var(--dark);
+      padding-top: 1rem;
+      margin: 4rem 0 2.5rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .section-issue {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.45);
+      margin-bottom: 0.3rem;
+    }
+
+    .section-eyebrow {
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+    }
+
+    .section-count {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: rgba(0,0,0,0.35);
+    }
+
+    .use-case {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 3rem;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+
+    .use-case-meta {}
+
+    .use-case-domain {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.4);
+      margin-bottom: 0.6rem;
+    }
+
+    .use-case-title {
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+      line-height: 1.3;
+      margin-bottom: 1rem;
+    }
+
+    .use-case-desc {
+      font-size: 0.82rem;
+      line-height: 1.75;
+      color: rgba(0,0,0,0.6);
+      margin-bottom: 1.4rem;
+    }
+
+    .tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tool-tag {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid rgba(0,0,0,0.2);
+      padding: 0.25rem 0.6rem;
+      color: rgba(0,0,0,0.5);
+    }
+
+    /* ── Flow diagram ── */
+    .flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* dithered background pattern on flow cards */
+    .flow::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
+      background-size: 6px 6px;
+      pointer-events: none;
+    }
+
+    .flow-node {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .flow-node-label {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.4);
+      margin-bottom: 0.5rem;
+    }
+
+    .flow-node-box {
+      border: 1.5px solid rgba(0,0,0,0.2);
+      padding: 0.7rem 0.8rem;
+      font-size: 0.78rem;
+      line-height: 1.4;
+      background: var(--white);
+      color: rgba(0,0,0,0.75);
+    }
+
+    .flow-node-box.ai {
+      border-color: var(--dark);
+      background: var(--dark);
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    /* vertical steps variant */
+    .flow-steps {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      position: relative;
+      z-index: 1;
+      flex: 0 0 auto;
+    }
+    .flow-step-num {
+      flex: 0 0 1.6rem;
+      width: 1.6rem;
+      height: 1.6rem;
+      border: 1.5px solid var(--dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--dark);
+      background: var(--white);
+    }
+    .flow-step-text {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      color: rgba(0,0,0,0.75);
+    }
+    /* event log variant */
+    .flow-log {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 1rem 1.25rem;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    .log-line {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      position: relative;
+      z-index: 1;
+    }
+    .log-line:last-child { border-bottom: none; }
+    .log-line-highlight .log-msg { color: var(--dark); font-weight: 600; }
+    .log-time {
+      flex: 0 0 auto;
+      font-size: 0.62rem;
+      color: rgba(0,0,0,0.25);
+      letter-spacing: 0.02em;
+    }
+    .log-source {
+      flex: 0 0 3.8rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: right;
+      padding: 0.1rem 0.35rem;
+      border-radius: 2px;
+    }
+    .log-source.pendo  { background: rgba(0,0,0,0.06); color: rgba(0,0,0,0.5); }
+    .log-source.agent  { background: var(--dark); color: var(--white); }
+    .log-source.slack  { background: rgba(0,0,0,0.06); color: rgba(0,0,0,0.5); }
+    .log-source.github { background: rgba(0,0,0,0.06); color: rgba(0,0,0,0.5); }
+    .log-msg {
+      font-size: 0.72rem;
+      color: rgba(0,0,0,0.55);
+      line-height: 1.4;
+    }
+
+    .flow-step-arrow {
+      font-size: 0.75rem;
+      color: rgba(0,0,0,0.25);
+      padding: 0.25rem 0 0.25rem 0.7rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .flow-arrow {
+      flex: 0 0 2.5rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: rgba(0,0,0,0.25);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Takes ── */
+    .takes {
+      padding: 0 2.5rem 5rem;
+    }
+
+    .take-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .take {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      border: 1.5px solid var(--dark);
+      background: var(--white);
+      transition: transform 0.12s;
+      image-rendering: pixelated;
+    }
+    .take:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--dark);
+    }
+    .take-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 8px;
+      background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 1px,
+        rgba(0,0,0,0.07) 1px,
+        rgba(0,0,0,0.07) 2px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 1px,
+        rgba(0,0,0,0.07) 1px,
+        rgba(0,0,0,0.07) 2px
+      );
+      background-size: 4px 4px;
+      background-color: rgba(0,0,0,0.06);
+      border-bottom: 1.5px solid var(--dark);
+    }
+    .take-btn {
+      width: 10px;
+      height: 10px;
+      border: 1.5px solid var(--dark);
+      background: var(--white);
+      flex-shrink: 0;
+      display: inline-block;
+      position: relative;
+    }
+    .take-btn.close::before,
+    .take-btn.close::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 60%; height: 1.5px;
+      background: var(--dark);
+      transform: translate(-50%,-50%) rotate(45deg);
+    }
+    .take-btn.close::after { transform: translate(-50%,-50%) rotate(-45deg); }
+    .take-btn.minimize::before {
+      content: '';
+      position: absolute;
+      bottom: 1px; left: 1px; right: 1px;
+      height: 1.5px;
+      background: var(--dark);
+    }
+    .take-label {
+      font-family: monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.05em;
+      color: var(--dark);
+      flex: 1;
+      text-align: center;
+      opacity: 0.5;
+    }
+    .take-body {
+      padding: 1.2rem 1.2rem 1.4rem;
+      background-image: radial-gradient(circle, rgba(0,0,0,0.08) 1px, transparent 1px);
+      background-size: 5px 5px;
+      background-color: var(--white);
+      flex: 1;
+    }
+    .take-num {
+      font-family: monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: rgba(0,0,0,0.35);
+      margin-bottom: 0.75rem;
+    }
+    .take-text {
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--dark);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      padding: 1.5rem 2.5rem;
+      border-top: 1px solid var(--border);
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      .nav { padding: 1.2rem 1.5rem; }
+      .hero { grid-template-columns: 1fr; padding: 2.5rem 1.5rem; gap: 2rem; }
+      .use-cases, .takes { padding: 0 1.5rem 3rem; }
+      .use-case { grid-template-columns: 1fr; gap: 1.5rem; }
+      .take-row { grid-template-columns: 1fr; gap: 1rem; }
+      .belief-band { padding: 1.5rem; }
+      .footer { padding: 1.2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-back">
+      ← Ira Saini
+    </a>
+    <span class="nav-title">AI in Practice</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-dither">
+      <h1 class="hero-title">ai in<br>practice . . .</h1>
+    </div>
+    <div class="hero-right">
+      <div class="speech-bubble-container">
+        <svg class="speech-bubble-svg" viewBox="-8 -8 476 235" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="cloud-goo" x="-5%" y="-5%" width="110%" height="110%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+              <feColorMatrix in="blur" type="matrix"
+                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -14"/>
+            </filter>
+          </defs>
+          <!-- Dark outline layer (r+5) -->
+          <g filter="url(#cloud-goo)" fill="#1C1814">
+            <circle cx="75"  cy="42" r="51"/>
+            <circle cx="160" cy="20" r="57"/>
+            <circle cx="250" cy="12" r="60"/>
+            <circle cx="340" cy="20" r="57"/>
+            <circle cx="405" cy="42" r="51"/>
+            <circle cx="90"  cy="78" r="67"/>
+            <circle cx="175" cy="82" r="67"/>
+            <circle cx="255" cy="84" r="73"/>
+            <circle cx="335" cy="82" r="67"/>
+            <circle cx="405" cy="78" r="67"/>
+            <!-- Trail -->
+            <circle cx="118" cy="193" r="18"/>
+            <circle cx="97"  cy="210" r="12"/>
+            <circle cx="80"  cy="222" r="7"/>
+          </g>
+          <!-- White fill layer -->
+          <g filter="url(#cloud-goo)" fill="white">
+            <circle cx="75"  cy="42" r="46"/>
+            <circle cx="160" cy="20" r="52"/>
+            <circle cx="250" cy="12" r="55"/>
+            <circle cx="340" cy="20" r="52"/>
+            <circle cx="405" cy="42" r="46"/>
+            <circle cx="90"  cy="78" r="62"/>
+            <circle cx="175" cy="82" r="62"/>
+            <circle cx="255" cy="84" r="68"/>
+            <circle cx="335" cy="82" r="62"/>
+            <circle cx="405" cy="78" r="62"/>
+          </g>
+        </svg>
+        <div class="speech-bubble-text">
+          <p class="hero-belief">AI should be involved in every artifact you create — not as a shortcut, but as a collaborator that raises the floor of what's possible.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BELIEF BAND -->
+
+  <!-- USE CASES -->
+  <section class="use-cases">
+
+    <div class="section-header">
+      <div>
+        <p class="section-issue">Vol. I — 2026</p>
+        <p class="section-eyebrow">operations replaced</p>
+      </div>
+      <span class="section-count">No. 01</span>
+    </div>
+
+    <!-- Use Case 1 -->
+    <div class="use-case">
+      <div class="use-case-meta">
+        <p class="use-case-domain">Design Engineering</p>
+        <h2 class="use-case-title">Meeting notes → prototype changes in a single session</h2>
+        <p class="use-case-desc">Meeting notes → PRD → design brief → handoff was a multi-day cycle before a single Figma frame moved. Built a pipeline that ingests raw transcripts and outputs component-level prompts that map directly to prototype changes. A customer offhandedly mentioned bulk editing — the feature was prototyped and in review by end of day.</p>
+        <div class="tools">
+          <span class="tool-tag">Claude API</span>
+          <span class="tool-tag">Notion</span>
+          <span class="tool-tag">Figma</span>
+          <span class="tool-tag">Make</span>
+        </div>
+      </div>
+      <div class="flow flow-steps">
+        <div class="flow-step">
+          <span class="flow-step-num">1</span>
+          <div class="flow-step-text">Raw meeting transcript ingested from Notion</div>
+        </div>
+        <div class="flow-step-arrow">↓</div>
+        <div class="flow-step">
+          <span class="flow-step-num">2</span>
+          <div class="flow-step-text">Claude extracts design intent, maps feedback to components</div>
+        </div>
+        <div class="flow-step-arrow">↓</div>
+        <div class="flow-step">
+          <span class="flow-step-num">3</span>
+          <div class="flow-step-text">Structured prompt output → Figma prototype updated same session</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use Case 2 -->
+    <div class="use-case">
+      <div class="use-case-meta">
+        <p class="use-case-domain">Engineering / QA</p>
+        <h2 class="use-case-title">Rage click → bug fix → PR, without a human in the loop</h2>
+        <p class="use-case-desc">Pendo rage clicks and user-flagged bugs sat in a queue until someone manually triaged, wrote a ticket, and tracked down the right engineer. Built an agent that monitors Pendo for anomalies, classifies them as bugs, posts a diagnostic summary to Slack, generates a targeted fix, and opens a PR assigned to the feature's code owner — all before the next standup.</p>
+        <div class="tools">
+          <span class="tool-tag">Claude API</span>
+          <span class="tool-tag">Pendo</span>
+          <span class="tool-tag">Slack</span>
+          <span class="tool-tag">GitHub API</span>
+        </div>
+      </div>
+      <div class="flow flow-log">
+        <div class="log-line">
+          <span class="log-time">09:14:02</span>
+          <span class="log-source pendo">pendo</span>
+          <span class="log-msg">rage_click detected — /dashboard/filters, 14 events in 8s</span>
+        </div>
+        <div class="log-line">
+          <span class="log-time">09:14:03</span>
+          <span class="log-source agent">agent</span>
+          <span class="log-msg">classifying… bug confirmed (filter state not persisting on nav)</span>
+        </div>
+        <div class="log-line">
+          <span class="log-time">09:14:05</span>
+          <span class="log-source slack">slack</span>
+          <span class="log-msg">#eng-alerts — diagnostic posted, root cause attached</span>
+        </div>
+        <div class="log-line">
+          <span class="log-time">09:14:09</span>
+          <span class="log-source agent">agent</span>
+          <span class="log-msg">fix generated — useEffect dependency array corrected</span>
+        </div>
+        <div class="log-line log-line-highlight">
+          <span class="log-time">09:14:11</span>
+          <span class="log-source github">github</span>
+          <span class="log-msg">PR #482 opened → assigned to @mwilson (filters owner)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use Case 3 -->
+    <div class="use-case">
+      <div class="use-case-meta">
+        <p class="use-case-domain">Program Management</p>
+        <h2 class="use-case-title">One agent, three update formats, every stakeholder covered</h2>
+        <p class="use-case-desc">Status updates were written three times a week for three different audiences — engineering standups, leadership newsletters, investor decks — each pulling from the same sources but rewritten from scratch. Built an agent that queries Jira, Slack, and meeting notes once, then generates all three: a technical wins/blockers brief posted to Notion, a monthly narrative for the leadership newsletter, and slide copy pushed directly into the quarterly investor deck.</p>
+        <div class="tools">
+          <span class="tool-tag">Claude API</span>
+          <span class="tool-tag">Jira</span>
+          <span class="tool-tag">Slack</span>
+          <span class="tool-tag">Notion</span>
+          <span class="tool-tag">Google Slides API</span>
+        </div>
+      </div>
+      <div class="flow flow-steps">
+        <div class="flow-step">
+          <span class="flow-step-num">1</span>
+          <div class="flow-step-text">Agent queries Jira, Slack, and meeting notes to aggregate weekly signal</div>
+        </div>
+        <div class="flow-step-arrow">↓</div>
+        <div class="flow-step">
+          <span class="flow-step-num">2</span>
+          <div class="flow-step-text">Claude generates three artifacts: technical brief, leadership newsletter section, investor slide copy — each tuned to its audience</div>
+        </div>
+        <div class="flow-step-arrow">↓</div>
+        <div class="flow-step">
+          <span class="flow-step-num">3</span>
+          <div class="flow-step-text">Outputs posted to Notion DB, newsletter draft, and slides updated in place</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use Case 4 -->
+    <div class="use-case">
+      <div class="use-case-meta">
+        <p class="use-case-domain">Product Strategy</p>
+        <h2 class="use-case-title">Lucy — the customer advocate agent that tells you what not to build</h2>
+        <p class="use-case-desc">AI makes it easy to ship more. The harder problem is knowing when not to. Built Lucy, an agent you can summon in Slack or point at a project brief — she pulls customer activity data and runs analysis on the idea before a line of code is written. Real case: we were considering a v2 grouping feature. Adoption of v1 was low. Lucy flagged it. We deprioritized. The roadmap got sharper.</p>
+        <div class="tools">
+          <span class="tool-tag">Claude API</span>
+          <span class="tool-tag">Slack</span>
+          <span class="tool-tag">Pendo</span>
+          <span class="tool-tag">Notion</span>
+        </div>
+      </div>
+      <div class="flow">
+        <div class="flow-node">
+          <p class="flow-node-label">Without Lucy</p>
+          <div class="flow-node-box">Ship intuition-led features, discover adoption gaps post-launch</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <p class="flow-node-label">Lucy</p>
+          <div class="flow-node-box ai">Reads brief or Slack thread → queries customer activity → surfaces adoption signal and recommendation</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <p class="flow-node-label">With Lucy</p>
+          <div class="flow-node-box">v2 grouping deprioritized before sprint — roadmap time reclaimed</div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- TAKES -->
+  <section class="takes">
+
+    <div class="section-header">
+      <div>
+        <p class="section-issue">Vol. I — 2026</p>
+        <p class="section-eyebrow">takes</p>
+      </div>
+      <span class="section-count">No. 02</span>
+    </div>
+
+    <div class="take-row">
+      <a class="take" href="https://www.linkedin.com/posts/ira-saini_weve-spent-years-optimizing-for-time-to-activity-7487926576383258624-yfyy" target="_blank" rel="noopener">
+        <div class="take-titlebar"><span class="take-btn close"></span><span class="take-btn minimize"></span><span class="take-label">take_01.txt</span></div>
+        <div class="take-body"><p class="take-num">01</p><p class="take-text">The meaningful product moment isn't when users gain value — it's when they stop questioning outputs and begin trusting the system with responsibility.</p></div>
+      </a>
+      <a class="take" href="https://www.linkedin.com/posts/ira-saini_we-track-the-usual-product-metrics-activation-activity-7415056654926516224--mwf" target="_blank" rel="noopener">
+        <div class="take-titlebar"><span class="take-btn close"></span><span class="take-btn minimize"></span><span class="take-label">take_02.txt</span></div>
+        <div class="take-body"><p class="take-num">02</p><p class="take-text">In AI products, trust rivals traditional metrics. Users evaluate reliability and reversibility. If they don't trust the system, they won't delegate to it.</p></div>
+      </a>
+      <a class="take" href="https://www.linkedin.com/posts/ira-saini_most-ai-discussions-stop-at-summaries-or-activity-7442656575003099136-6fDp" target="_blank" rel="noopener">
+        <div class="take-titlebar"><span class="take-btn close"></span><span class="take-btn minimize"></span><span class="take-label">take_03.txt</span></div>
+        <div class="take-body"><p class="take-num">03</p><p class="take-text">AI's real value emerges when it enables action, not just awareness. The gap between insight and doing is where most tools fail.</p></div>
+      </a>
+    </div>
+    <div class="take-row">
+      <a class="take" href="https://www.linkedin.com/posts/ira-saini_ai-is-changing-a-lot-first-principles-aren-activity-7455445477032128513-eyM2" target="_blank" rel="noopener">
+        <div class="take-titlebar"><span class="take-btn close"></span><span class="take-btn minimize"></span><span class="take-label">take_04.txt</span></div>
+        <div class="take-body"><p class="take-num">04</p><p class="take-text">Capability doesn't justify implementation. Trust is built through recovery, boundaries, and predictability — not peak performance.</p></div>
+      </a>
+      <a class="take" href="https://www.linkedin.com/posts/ira-saini_product-managers-have-always-segmented-users-activity-7401479072385617920-ftfg" target="_blank" rel="noopener">
+        <div class="take-titlebar"><span class="take-btn close"></span><span class="take-btn minimize"></span><span class="take-label">take_05.txt</span></div>
+        <div class="take-body"><p class="take-num">05</p><p class="take-text">AI adoption requires designing for emotional states — curiosity, skepticism, anxiety. Trust is emotional. We need to build for that.</p></div>
+      </a>
+      <a class="take" href="https://www.linkedin.com/posts/ira-saini_the-smallest-feature-can-be-the-biggest-activity-7417303832113737730-x0In" target="_blank" rel="noopener">
+        <div class="take-titlebar"><span class="take-btn close"></span><span class="take-btn minimize"></span><span class="take-label">take_06.txt</span></div>
+        <div class="take-body"><p class="take-num">06</p><p class="take-text">Minor tweaks in copy, flow, or onboarding reveal hidden user assumptions. A three-word change in a notification doubled click-through.</p></div>
+      </a>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span>Ira Saini — 2026</span>
+    <a href="index.html">← Back to portfolio</a>
+  </footer>
+
+
+
+<script>
+(function () {
+  const PIXEL = 5; // each visible "pixel" = 5 actual pixels
+  // YOFF pushes circles down so top bumps (cy=12, r=60 → top=-48) don't clip
+  const VW = 476, VH = 300, YOFF = 60;
+  const sw = Math.ceil(VW / PIXEL);
+  const sh = Math.ceil(VH / PIXEL);
+
+  const small = document.createElement('canvas');
+  small.width = sw; small.height = sh;
+  const sc = small.getContext('2d');
+
+  const DARK = '#1C1814';
+  const WHITE = '#ffffff';
+
+  // circle data: cx/cy in SVG viewBox coords (need +8 for viewBox offset)
+  const cloudCircles = [
+    // top bumps: fill r, outline r
+    {cx:75,  cy:42, r:46, ro:51},
+    {cx:160, cy:20, r:52, ro:57},
+    {cx:250, cy:12, r:55, ro:60},
+    {cx:340, cy:20, r:52, ro:57},
+    {cx:405, cy:42, r:46, ro:51},
+    // body
+    {cx:90,  cy:78, r:62, ro:67},
+    {cx:175, cy:82, r:62, ro:67},
+    {cx:255, cy:84, r:68, ro:73},
+    {cx:335, cy:82, r:62, ro:67},
+    {cx:405, cy:78, r:62, ro:67},
+  ];
+  // trail comes from bottom-right; inner = r-5 matches cloud outline thickness
+  const trailCircles = [
+    {cx:355, cy:195, r:18, inner:13},
+    {cx:374, cy:213, r:12, inner:7},
+    {cx:389, cy:225, r:7,  inner:2},
+  ];
+
+  function drawCircle(ctx, cx, cy, r, color) {
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    // +8 for viewBox origin offset, +YOFF so top bumps don't clip
+    ctx.arc((cx + 8) / PIXEL, (cy + 8 + YOFF) / PIXEL, r / PIXEL, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // 1. Dark outline circles
+  cloudCircles.forEach(c => drawCircle(sc, c.cx, c.cy, c.ro, DARK));
+  // 2. White fill circles (no trail white — trail stays dark)
+  cloudCircles.forEach(c => drawCircle(sc, c.cx, c.cy, c.r, WHITE));
+  // 3. Trail circles — dark ring + hollow interior
+  trailCircles.forEach(c => {
+    drawCircle(sc, c.cx, c.cy, c.r, DARK);
+    if (c.inner > 0) drawCircle(sc, c.cx, c.cy, c.inner, WHITE);
+  });
+
+  // 4. Threshold: snap every pixel to either transparent, white, or dark
+  const imgData = sc.getImageData(0, 0, sw, sh);
+  const d = imgData.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const a = d[i + 3];
+    if (a < 40) {
+      // outside — fully transparent
+      d[i] = 0; d[i+1] = 0; d[i+2] = 0; d[i+3] = 0;
+    } else if (d[i] > 180) {
+      // background-colored interior (#f4f4f4)
+      d[i] = 255; d[i+1] = 255; d[i+2] = 255; d[i+3] = 255;
+    } else {
+      // dark border / trail
+      d[i] = 28; d[i+1] = 24; d[i+2] = 20; d[i+3] = 255;
+    }
+  }
+  sc.putImageData(imgData, 0, 0);
+
+  // 5. Scale up to full display canvas with nearest-neighbor
+  const display = document.createElement('canvas');
+  display.width = VW; display.height = VH; // VH=300 includes YOFF padding at top
+  display.style.cssText = 'width:100%;height:auto;aspect-ratio:476/300;display:block;image-rendering:pixelated;image-rendering:-moz-crisp-edges;image-rendering:crisp-edges';
+  display.className = 'speech-bubble-svg';
+
+  const dc = display.getContext('2d');
+  dc.imageSmoothingEnabled = false;
+  dc.drawImage(small, 0, 0, VW, VH);
+
+  // 6. Swap SVG → canvas after DOM ready
+  const container = document.querySelector('.speech-bubble-container');
+  const svg = container.querySelector('.speech-bubble-svg');
+  container.replaceChild(display, svg);
+})();
+</script>
+</body>
+</html>
