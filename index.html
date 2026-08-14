@@ -728,9 +728,18 @@
       box-shadow: none;
     }
 
-    .pcard--flip:hover .pcard-flip-inner,
     .pcard--flip.flipped .pcard-flip-inner {
       transform: rotateY(180deg);
+    }
+
+    /* Hover-to-preview only on devices with real hover (mouse/trackpad).
+       On touch, a tap can leave the element "stuck" in :hover until another
+       element is tapped, which would otherwise fight the tap-to-flip toggle
+       below and prevent flipping back. */
+    @media (hover: hover) {
+      .pcard--flip:hover .pcard-flip-inner {
+        transform: rotateY(180deg);
+      }
     }
 
     .pcard-front, .pcard-back {
