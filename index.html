@@ -152,6 +152,9 @@
     .hero-bottom { display: none; }
 
     .hero-now-playing {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
       font-family: Helvetica, Arial, sans-serif;
       font-size: 0.65rem;
       letter-spacing: 0.08em;
@@ -168,6 +171,21 @@
       transition: color 0.2s;
     }
     .hero-now-playing a:hover { color: var(--dark); }
+
+    .now-playing-vinyl {
+      width: 13px;
+      height: 13px;
+      flex-shrink: 0;
+      animation: spin-vinyl 2.8s linear infinite;
+      animation-play-state: paused;
+    }
+    .now-playing-vinyl.is-spinning { animation-play-state: running; }
+    @keyframes spin-vinyl {
+      to { transform: rotate(360deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .now-playing-vinyl { animation: none; }
+    }
 
     /* ══════════════════════════════════
        DITHER NAME — top-left
@@ -1756,8 +1774,20 @@
       .then(d => {
         if (!d.title) return;
         const el = document.getElementById('now-playing');
-        const label = d.playing ? 'listening to' : 'last played';
-        el.innerHTML = `${label} <a href="${d.url}" target="_blank" rel="noopener">${d.title} — ${d.artist}</a>`;
+        el.innerHTML = `<svg class="now-playing-vinyl${d.playing ? ' is-spinning' : ''}" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.6)" />
+          <circle cx="12" cy="12" r="7.5" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1" />
+          <circle cx="12" cy="12" r="4.5" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1" />
+          <ellipse cx="8" cy="7.5" rx="4.2" ry="1.4" fill="rgba(255,255,255,0.55)" transform="rotate(-35 8 7.5)" />
+          <circle cx="12" cy="12" r="1.8" fill="#ffffff" />
+        </svg>`;
+        el.appendChild(document.createTextNode(`${d.playing ? 'listening to' : 'last played'} `));
+        const a = document.createElement('a');
+        a.href = d.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = `${d.title} — ${d.artist}`;
+        el.appendChild(a);
       })
       .catch(() => {});
 
