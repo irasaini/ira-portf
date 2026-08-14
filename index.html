@@ -743,8 +743,6 @@
 
     .pcard-front { overflow: hidden; }
 
-    .pcard--link { cursor: pointer; text-decoration: none; display: block; }
-
     .pcard-front--dark {
       background: #1c1814;
       display: flex;
@@ -1129,7 +1127,7 @@
 
     <!-- photo sits bottom-right, behind tabs -->
     <div class="hero-photo">
-      <img src="ira.jpeg" alt="Ira Saini" />
+      <img src="ira.jpeg" alt="Ira Saini" fetchpriority="high" />
     </div>
 
 
@@ -1145,10 +1143,10 @@
     <div class="pcards-grid">
 
       <!-- AI in Practice -->
-      <a class="pcard--flip pcard--link" href="ai-use-cases.html">
+      <div class="pcard--flip">
         <div class="pcard-flip-inner">
           <div class="pcard-front">
-            <img src="laptop.jpg" alt="AI in Practice" />
+            <img src="laptop.jpg" alt="AI in Practice" loading="lazy" decoding="async" />
             <div class="pcard-front-label">
               <span class="pcard-front-tag">AI · Operations</span>
               <span class="pcard-front-title">How I Use AI</span>
@@ -1158,19 +1156,19 @@
             <div class="pcard-tag">AI · Operations</div>
             <h3 class="pcard-title">AI in Practice</h3>
             <p class="pcard-desc">How I actually use AI day to day — real workflows, real tools, real outcomes.</p>
-            <span class="pcard-back-cta">
+            <a class="pcard-back-cta" href="ai-use-cases.html" onclick="event.stopPropagation()">
               Read the cases
               <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8"/></svg>
-            </span>
+            </a>
           </div>
         </div>
-      </a>
+      </div>
 
       <!-- mobile-fix -->
       <div class="pcard--flip">
         <div class="pcard-flip-inner">
           <div class="pcard-front">
-            <img src="mobile.jpg" alt="mobile-fix" />
+            <img src="mobile.jpg" alt="mobile-fix" loading="lazy" decoding="async" />
             <div class="pcard-front-label">
               <span class="pcard-front-tag">Claude Skill · Open Source</span>
               <span class="pcard-front-title">mobile-fix</span>
@@ -1196,7 +1194,7 @@
       <div class="pcard--flip">
         <div class="pcard-flip-inner">
           <div class="pcard-front">
-            <img src="endoyoupic.jpg" alt="EndoYou" />
+            <img src="endoyoupic.jpg" alt="EndoYou" loading="lazy" decoding="async" />
             <div class="pcard-front-label">
               <span class="pcard-front-tag">Prototype · Health &amp; AI</span>
               <span class="pcard-front-title">EndoYou</span>
@@ -1218,7 +1216,7 @@
       <div class="pcard--flip">
         <div class="pcard-flip-inner">
           <div class="pcard-front">
-            <img src="food.jpg" alt="Harvest" />
+            <img src="food.jpg" alt="Harvest" loading="lazy" decoding="async" />
             <div class="pcard-front-label">
               <span class="pcard-front-tag">Prototype · Food &amp; AI</span>
               <span class="pcard-front-title">Harvest</span>
@@ -1618,14 +1616,21 @@
     (function () {
       const TEXT = 'Ira Saini';
       const DOWNSAMPLE = 3; // dot size
+      let lastRenderedW = 0;
 
       function render() {
         const container = document.querySelector('.hero-dither');
         const canvas = document.getElementById('dither-canvas');
         if (!canvas || !container) return;
 
-        const dpr = window.devicePixelRatio || 1;
         const displayW = container.offsetWidth;
+        if (!displayW || displayW === lastRenderedW) return;
+        lastRenderedW = displayW;
+
+        // Cap oversample DPR — beyond 2x the dots are already imperceptible,
+        // and the pixel-scan below is O(overW * overH), so high-DPR phones
+        // (3x) would otherwise do ~2.25x more work for no visible gain.
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
         // Step 1: render to oversized canvas so nothing clips
         const over = document.createElement('canvas');
@@ -1724,7 +1729,15 @@
       }
 
       document.fonts.load(`100px 'Pinyon Script'`).then(render).catch(render);
-      window.addEventListener('resize', render);
+
+      // Debounce resize — mobile browsers fire resize repeatedly as the
+      // address bar shows/hides while scrolling, and lastRenderedW above
+      // already skips re-renders where the width didn't actually change.
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(render, 200);
+      });
     })();
 
 
@@ -1739,17 +1752,13 @@
       })
       .catch(() => {});
 
-    // Mobile tap-to-flip cards
-    if (window.matchMedia('(hover: none)').matches) {
-      document.querySelectorAll('.pcard--flip').forEach(card => {
-        card.addEventListener('click', e => {
-          // Let link clicks through without toggling
-          if (e.target.closest('a')) return;
-          e.preventDefault();
-          card.classList.toggle('flipped');
-        });
+    // Tap/click to flip cards; clicking a link inside still navigates
+    document.querySelectorAll('.pcard--flip').forEach(card => {
+      card.addEventListener('click', e => {
+        if (e.target.closest('a')) return;
+        card.classList.toggle('flipped');
       });
-    }
+    });
   </script>
 </body>
 </html>
