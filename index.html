@@ -1775,10 +1775,11 @@
         if (!d.title) return;
         const el = document.getElementById('now-playing');
         el.innerHTML = `<svg class="now-playing-vinyl${d.playing ? ' is-spinning' : ''}" viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="12" r="11" fill="#1C1814" />
-          <circle cx="12" cy="12" r="7.5" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1" />
-          <circle cx="12" cy="12" r="4.5" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1" />
-          <circle cx="12" cy="12" r="1.8" fill="var(--sky)" />
+          <circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.6)" />
+          <circle cx="12" cy="12" r="7.5" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1" />
+          <circle cx="12" cy="12" r="4.5" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1" />
+          <ellipse cx="8" cy="7.5" rx="4.2" ry="1.4" fill="rgba(255,255,255,0.55)" transform="rotate(-35 8 7.5)" />
+          <circle cx="12" cy="12" r="1.8" fill="#ffffff" />
         </svg>`;
         el.appendChild(document.createTextNode(`${d.playing ? 'listening to' : 'last played'} `));
         const a = document.createElement('a');
