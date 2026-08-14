@@ -151,6 +151,22 @@
 
     .hero-bottom { display: none; }
 
+    .hero-now-playing {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      color: rgba(0,0,0,0.35);
+      margin-top: 0.4rem;
+    }
+    .hero-now-playing a {
+      color: rgba(0,0,0,0.35);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: rgba(0,0,0,0.15);
+      transition: color 0.2s;
+    }
+    .hero-now-playing a:hover { color: var(--dark); }
+
     /* ══════════════════════════════════
        DITHER NAME — top-left
     ══════════════════════════════════ */
@@ -1115,6 +1131,7 @@
 
     <div>
       <p class="hero-eyebrow">Product Leader &mdash; New York City</p>
+      <p class="hero-now-playing" id="now-playing"></p>
     </div>
 
   </section>
@@ -1707,6 +1724,17 @@
       window.addEventListener('resize', render);
     })();
 
+
+    // Spotify now playing
+    fetch('/api/spotify')
+      .then(r => r.json())
+      .then(d => {
+        if (!d.title) return;
+        const el = document.getElementById('now-playing');
+        const label = d.playing ? 'listening to' : 'last played';
+        el.innerHTML = `${label} <a href="${d.url}" target="_blank" rel="noopener">${d.title} — ${d.artist}</a>`;
+      })
+      .catch(() => {});
 
     // Mobile tap-to-flip cards
     if (window.matchMedia('(hover: none)').matches) {
