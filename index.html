@@ -100,6 +100,21 @@
       text-decoration-color: rgba(0,0,0,0.6);
     }
 
+    .type-cursor {
+      display: inline-block;
+      width: 0.05em;
+      height: 0.85em;
+      margin-left: 0.08em;
+      vertical-align: -0.08em;
+      background: currentColor;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      50.01%, 100% { opacity: 0; }
+    }
+
     .hero-social {
       display: flex;
       gap: 1rem;
@@ -1143,7 +1158,7 @@
 
   <!-- WORK PAGE -->
   <section class="work-page">
-    <p class="work-page-eyebrow">building...</p>
+    <p class="work-page-eyebrow">building...<span class="type-cursor"></span></p>
     <div class="pcards-grid">
 
       <!-- AI in Practice -->
