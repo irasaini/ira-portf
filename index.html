@@ -688,28 +688,6 @@
       text-decoration-color: rgba(0,0,0,0.8);
     }
 
-    /* ── custom cursor ── */
-    .cursor {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 14px;
-      height: 14px;
-      background: #111;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.08s ease, background 0.2s, width 0.2s, height 0.2s;
-    }
-
-    .cursor.hover {
-      width: 36px;
-      height: 36px;
-      background: transparent;
-      border: 1px solid #111;
-    }
-
     /* hide cursor inside panels too */
     .slide-panel { }
 
@@ -1120,7 +1098,6 @@
 <body>
 
   <!-- CUSTOM CURSOR -->
-  <div class="cursor" id="cursor"></div>
 
   <!-- OVERLAY -->
   <div class="panel-overlay" id="overlay"></div>
@@ -1557,19 +1534,6 @@
   </div><!-- /mobile-sections -->
 
 <footer class="site-footer">Ira Saini 2026</footer>
-
-  <script>
-    // Custom cursor
-    const cursor = document.getElementById('cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top  = e.clientY + 'px';
-    });
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-    });
-  </script>
 
   <script>
     const overlay = document.getElementById('overlay');
