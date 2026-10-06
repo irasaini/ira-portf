@@ -504,6 +504,9 @@
       .use-case { grid-template-columns: 1fr; gap: 1.5rem; }
       .take-row { grid-template-columns: 1fr; gap: 1rem; }
       .belief-band { padding: 1.5rem; }
+      .flow:not(.flow-steps):not(.flow-log) { flex-direction: column; align-items: stretch; }
+      .flow-node { flex: 0 0 auto; }
+      .flow-arrow { flex: 0 0 auto; padding: 0.4rem 0; transform: rotate(90deg); }
       .footer { padding: 1.2rem 1.5rem; }
     }
   </style>
