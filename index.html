@@ -140,7 +140,9 @@
       .role:hover a,
       .role:focus-within a { color: var(--dark); }
       .role:hover .role-methods,
-      .role:focus-within .role-methods {
+      .role:focus-within .role-methods,
+      .photo-link:hover .role-methods,
+      .photo-link:focus-visible .role-methods {
         opacity: 1;
         transform: translate(-50%, 0);
       }
@@ -285,6 +287,13 @@
       height: 42vh;
       overflow: hidden;
       pointer-events: none;
+    }
+
+    .photo-link {
+      display: block;
+      width: 100%;
+      height: 100%;
+      pointer-events: auto;
     }
 
     .hero-photo img {
@@ -1202,7 +1211,10 @@
 
     <!-- photo sits bottom-right, behind tabs -->
     <div class="hero-photo">
-      <img src="ira.jpeg" alt="Ira Saini" fetchpriority="high" />
+      <a class="photo-link" href="mailto:ira.saini00@gmail.com" target="_blank" rel="noopener" aria-label="Email Ira">
+        <img src="ira.jpeg" alt="Ira Saini" fetchpriority="high" />
+        <span class="role-methods">hi!</span>
+      </a>
     </div>
 
 
@@ -1835,10 +1847,10 @@
     });
   </script>
   <script>
-  // Work-history bubbles drift after the cursor with a gentle bob
+  // Work-history and photo bubbles drift after the cursor with a gentle bob
   (() => {
     if (!matchMedia('(hover: hover)').matches) return;
-    const roles = document.querySelectorAll('.hero-career .role');
+    const roles = document.querySelectorAll('.hero-career .role, .photo-link');
     if (!roles.length) return;
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
     document.documentElement.classList.add('float-tips');
@@ -1876,9 +1888,10 @@
       role.addEventListener('mouseleave', () => { tip = null; placed = false; });
       // keyboard: park the bubble under the focused company link
       role.addEventListener('focusin', () => {
-        const r = role.querySelector('a').getBoundingClientRect();
+        const link = role.matches('a') ? role : role.querySelector('a');
+        const r = link.getBoundingClientRect();
         placed = false;
-        show(role, r.left - 16, r.bottom - 12);
+        show(role, r.left - 16, (link === role ? r.top : r.bottom) - 12);
       });
       role.addEventListener('focusout', () => { tip = null; });
     });
