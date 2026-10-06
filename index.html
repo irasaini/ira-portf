@@ -101,7 +101,7 @@
       text-decoration-color: rgba(0,0,0,0.6);
     }
 
-    /* methods per role — floating bubble on hover, inline on touch */
+    /* methods per role — floating bubble on hover, hidden on touch */
     .role {
       transition: background-color 0.15s, color 0.15s;
       -webkit-box-decoration-break: clone;
@@ -153,9 +153,7 @@
       will-change: transform;
     }
     @media (hover: none) {
-      .role-anchor { white-space: normal; }
-      .role-methods { color: rgba(0,0,0,0.35); }
-      .role-methods::before { content: ' · '; }
+      .role-methods { display: none; }
     }
 
     .type-cursor {
